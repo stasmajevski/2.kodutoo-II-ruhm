@@ -29,15 +29,24 @@
 	}
 	
 	
-	if(isset($_POST["carPlate"]) && isset($_POST["carColor"]) && !empty($_POST["carPlate"]) && !empty($_POST["carColor"]))
+	/*if(isset($_POST["carPlate"]) && isset($_POST["carColor"]) && !empty($_POST["carPlate"]) && !empty($_POST["carColor"]))
 	{
 		saveCar(cleanInput($_POST["carPlate"]),cleanInput($_POST["carColor"]));
 	}
+	*/
 	
-	$carData = getAllCars();
-	//echo "<pre>";
-	//var_dump($carData);
-	//echo "</pre>";
+	if(isset($_POST["project"]) && isset($_POST["customer"]) && isset($_POST["deadline"]) && isset($_POST["contact"])
+		&& !empty($_POST["project"]) && !empty($_POST["customer"]) && !empty($_POST["deadline"]) && !empty($_POST["contact"]))
+	{
+		//saveCar(cleanInput($_POST["carPlate"]),cleanInput($_POST["carColor"]));
+		saveProject(cleanInput($_POST["project"]),cleanInput($_POST["customer"]),cleanInput($_POST["deadline"]),cleanInput($_POST["contact"]));
+	}
+	
+	
+	
+	//$carData = getAllCars();
+	
+	$projectDetails = getAllProjectDetails();
 	
 ?>
 <link rel="stylesheet" type="text/css" href="style.css">
@@ -45,9 +54,28 @@
  <link href='http://fonts.googleapis.com/css?family=Nunito:400,300' rel='stylesheet' type='text/css'>
 
 <?=$msg;?>
-<p>Tere tulemast <?=$_SESSION["userEmail"];?>!</p>
-<a href="?logout=1">Logi v‰lja</a>
+<p>Welcome! <?=$_SESSION["userEmail"];?>!</p>
+<a href="?logout=1">Logi v√§lja</a>
 
+<form method="POST">
+	<h1>Details</h1>
+	<label for="project">Project: </label>
+	<input name="project" type="text" value=""><br><br>
+	
+	<label for="customer">Customer: </label>
+	<input name="customer" type="text" value=""><br><br>
+	
+	<label for="deadline">Deadline: </label>
+	<input name="deadline" type="date" value=""><br><br>
+	
+	<label for="contact">Contact: </label>
+	<input name="contact" type="text" value=""><br><br>
+	
+	<input type="submit" value="Save" class="button">
+</form>
+
+
+<!--
 <form method="POST">
 	<h1>Salvesta autot</h1>
 	
@@ -60,8 +88,24 @@
 </form>
 
 <h1>Autod</h1>
+-->
+<?php
+$html = "";
+	foreach($projectDetails as $project)
+	{
+		//$html .= "<p>".$project->id."</p>";
+		$html .= "<p>".$project->project."</p>";
+		$html .= "<p>".$project->customer."</p>";
+		$html .= "<p>".$project->deadline."</p>";
+		$html .= "<p>".$project->contact."</p>";
+		
+	}
+	echo $html;
+
+?>
 
 <?php
+/*
 // th - table header
 // td - table data
 // tr - table row
@@ -104,3 +148,4 @@
 	
 	echo $listHtml;
 ?>
+*/

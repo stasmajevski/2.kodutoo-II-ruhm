@@ -34,6 +34,7 @@ require("../../config.php");
 	session_start();
 	
 	
+	
 	function signUp($email,$password,$birthday,$gender)
 	{
 		// UHENDUS
@@ -44,25 +45,25 @@ require("../../config.php");
 		$stmt = $mysqli->prepare("INSERT INTO login (email,password,birthday,gender) VALUES (?,?,?,?)");
 		
 		
-		echo $mysqli->error; // !!! Kui läheb midagi valesti, siis see käsk printib viga
+		echo $mysqli->error; // !!! Kui lÃ¤heb midagi valesti, siis see kÃ¤sk printib viga
 		
-		// stringina üks täht iga muutuja kohta (?), mis tüüp
+		// stringina Ã¼ks tÃ¤ht iga muutuja kohta (?), mis tÃ¼Ã¼p
 		// string - s
 		// integer - i
 		// float (double) - d
 		$stmt->bind_param("ssss",$email,$password,$birthday,$gender); // sest on email ja password VARCHAR - STRING , ehk siis email - s, password - sa
 		
-		//täida käsku
+		//tÃ¤ida kÃ¤sku
 		if($stmt->execute())
 		{
-			echo "salvsestamine õnnestus";
+			echo "salvsestamine Ãµnnestus";
 		}
 		else
 		{
 			echo "ERROR ".$stmt->error;
 		}
 		
-		//panen ühenduse kinni
+		//panen Ã¼henduse kinni
 		$stmt->close();
 		$mysqli->close();
 	}
@@ -76,28 +77,67 @@ require("../../config.php");
 		$stmt = $mysqli->prepare("INSERT INTO car_and_colors (plate,color) VALUES (?,?)");
 		
 		
-		echo $mysqli->error; // !!! Kui läheb midagi valesti, siis see käsk printib viga
+		echo $mysqli->error; // !!! Kui lÃ¤heb midagi valesti, siis see kÃ¤sk printib viga
 		
-		// stringina üks täht iga muutuja kohta (?), mis tüüp
+		// stringina Ã¼ks tÃ¤ht iga muutuja kohta (?), mis tÃ¼Ã¼p
 		// string - s
 		// integer - i
 		// float (double) - d
 		$stmt->bind_param("ss",$carNumber,$carColor); // sest on email ja password VARCHAR - STRING , ehk siis email - s, password - sa
 		
-		//täida käsku
+		//tÃ¤ida kÃ¤sku
 		if($stmt->execute())
 		{
-			echo "salvsestamine õnnestus";
+			echo "salvsestamine Ãµnnestus";
 		}
 		else
 		{
 			echo "ERROR ".$stmt->error;
 		}
 		
-		//panen ühenduse kinni
+		//panen Ã¼henduse kinni
 		$stmt->close();
 		$mysqli->close();
 	}
+	
+	
+	
+	
+	
+	
+	function saveProject($project,$customer,$deadline,$contact)
+	{
+		$database = "if16_stanislav";
+		$mysqli = new mysqli($GLOBALS["serverHost"],$GLOBALS["serverUsername"],$GLOBALS["serverPassword"], $database);
+		$mysqli->set_charset("utf8");
+		// sqli rida
+		$stmt = $mysqli->prepare("INSERT INTO project_details (project,customer,deadline,contact) VALUES (?,?,?,?)");
+		
+		
+		echo $mysqli->error; // !!! Kui lÃ¤heb midagi valesti, siis see kÃ¤sk printib viga
+		
+		// stringina Ã¼ks tÃ¤ht iga muutuja kohta (?), mis tÃ¼Ã¼p
+		// string - s
+		// integer - i
+		// float (double) - d
+		$stmt->bind_param("ssss",$project,$customer,$deadline,$contact);
+		
+		//tÃ¤ida kÃ¤sku
+		if($stmt->execute())
+		{
+			echo "salvsestamine Ãµnnestus";
+		}
+		else
+		{
+			echo "ERROR ".$stmt->error;
+		}
+		
+		//panen Ã¼henduse kinni
+		$stmt->close();
+		$mysqli->close();
+	}
+	
+	
 	
 	function login ($email,$password)
 	{
@@ -110,7 +150,7 @@ require("../../config.php");
 		$stmt = $mysqli->prepare("SELECT id,email,password FROM login WHERE email = ?");
 		
 		
-		echo $mysqli->error; // !!! Kui läheb midagi valesti, siis see käsk printib viga
+		echo $mysqli->error; // !!! Kui lÃ¤heb midagi valesti, siis see kÃ¤sk printib viga
 		
 		// asenad kusimargi
 		$stmt ->bind_param("s",$email);
@@ -146,7 +186,7 @@ require("../../config.php");
 			}
 			else
 			{
-				$error = "vale email või parool";
+				$error = "vale email vÃµi parool";
 			}
 		}
 		else
@@ -157,6 +197,7 @@ require("../../config.php");
 		
 		return $error;
 	}
+	
 	
 	function getAllCars()
 	{
@@ -198,6 +239,60 @@ require("../../config.php");
 		
 		return $result;
 	}
+	
+	
+	
+	function getAllProjectDetails()
+	{
+		$database = "if16_stanislav";
+		$mysqli = new mysqli($GLOBALS["serverHost"],$GLOBALS["serverUsername"],$GLOBALS["serverPassword"], $database);
+		
+		$mysqli->set_charset("utf8");
+		
+		// sqli rida
+		$stmt = $mysqli->prepare("SELECT id,project,customer,deadline,contact FROM project_details ORDER BY deadline DESC");
+		
+		//maaran vaartused muutujatesse
+		
+		$stmt ->bind_result($id,$project,$customer,$deadline,$contact);
+		$stmt->execute();
+		
+		
+		//tekitan massiivi
+		$result=array();
+		
+		
+		//tee seda seni, kuni on rida andmeid
+		//mis vastab select lausele
+		//fetch annab andmeid uhe rea kaupa
+		while($stmt->fetch())
+		{
+			//tekitan objekti
+			$proj = new StdClass();
+			
+			$proj->id = $id;
+			$proj->project = $project;
+			$proj->customer = $customer;
+			$proj->deadline = $deadline;
+			$proj->contact = $contact;
+			
+			//echo $plate."<br>";
+			//iga kord massiivi lisan juurde nr. m2rgi
+			array_push($result,$proj);
+		}
+		
+		$stmt->close();
+		$mysqli->close();
+		
+		return $result;
+	}
+	
+	
+	
+	
+	
+	
+	
 	
 	function cleanInput($input)
 	{

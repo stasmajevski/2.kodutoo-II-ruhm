@@ -28,13 +28,6 @@
 			unset($_SESSION["message"]);
 	}
 	
-	
-	/*if(isset($_POST["carPlate"]) && isset($_POST["carColor"]) && !empty($_POST["carPlate"]) && !empty($_POST["carColor"]))
-	{
-		saveCar(cleanInput($_POST["carPlate"]),cleanInput($_POST["carColor"]));
-	}
-	*/
-	
 	if(isset($_POST["project"]) && isset($_POST["customer"]) && isset($_POST["deadline"]) && isset($_POST["contact"])
 		&& !empty($_POST["project"]) && !empty($_POST["customer"]) && !empty($_POST["deadline"]) && !empty($_POST["contact"]))
 	{
@@ -52,7 +45,17 @@
 <link rel="stylesheet" type="text/css" href="style.css">
 <!-- lisasin 'Nunito' fonti -->
  <link href='http://fonts.googleapis.com/css?family=Nunito:400,300' rel='stylesheet' type='text/css'>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+    $("#hide").click(function(){
+        $(".hide").hide();
+    });
+    $("#show").click(function(){
+        $(".hide").show();
+    });
+});
+</script>
 <?=$msg;?>
 <p>Welcome! <?=$_SESSION["userEmail"];?>!</p>
 <a href="?logout=1">Logi välja</a>
@@ -74,34 +77,26 @@
 	<input type="submit" value="Save" class="button">
 </form>
 
+<h1 id="hide" style="cursor:pointer;">Hide</h1>
+<h1 id="show" style="cursor:pointer;">Show</h1>
 
-<!--
-<form method="POST">
-	<h1>Salvesta autot</h1>
-	
-    <label for="carPlate">Cars number: </label>
-	<input name="carPlate" type="text" value=""><br><br>
-    <label for="carColor">Cars color: </label>
-	<input name="carColor" type="color"><br><br>
-	
-	<input type="submit" value="Save car" class="button">
-</form>
-
-<h1>Autod</h1>
--->
 <?php
 $html = "";
+$i = 1;
+$projArr = array();
 	foreach($projectDetails as $project)
 	{
 		//$html .= "<p>".$project->id."</p>";
-		$html .= "<p>".$project->project."</p>";
-		$html .= "<p>".$project->customer."</p>";
-		$html .= "<p>".$project->deadline."</p>";
-		$html .= "<p>".$project->contact."</p>";
-		
+		$html .= "<div class='details'>";
+		$html .= "<p>".$i.")"." ".$project->project."</p>";
+		$i+=1;
+		$html .= "<p class='hide'>".$project->customer."</p>";
+		$html .= "<p class='hide color'>".$project->deadline."</p>";
+		$html .= "<p class='hide'>".$project->contact."</p>";
+		$html .= "</div>";
+		array_push($projArr,$project);
 	}
 	echo $html;
-
 ?>
 
 <?php

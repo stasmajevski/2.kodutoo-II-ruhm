@@ -250,7 +250,7 @@ require("../../config.php");
 		$mysqli->set_charset("utf8");
 		
 		// sqli rida
-		$stmt = $mysqli->prepare("SELECT id,project,customer,deadline,contact FROM project_details ORDER BY deadline DESC");
+		$stmt = $mysqli->prepare("SELECT id,project,customer,deadline,contact FROM project_details ORDER BY deadline ASC");
 		
 		//maaran vaartused muutujatesse
 		

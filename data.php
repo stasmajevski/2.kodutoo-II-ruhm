@@ -55,6 +55,7 @@ $(document).ready(function(){
         $(".hide").show();
     });
 });
+
 </script>
 <?=$msg;?>
 <p>Welcome! <?=$_SESSION["userEmail"];?>!</p>
@@ -80,13 +81,15 @@ $(document).ready(function(){
 <h1 id="hide" style="cursor:pointer;">Hide</h1>
 <h1 id="show" style="cursor:pointer;">Show</h1>
 
+<img id="pic"  src="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcTJk9-lPrp64eDqSduXYOTZ6i0m7JNVTHwZgLkrEHlErGQ4B4jN_Q"></img>
+
 <?php
 $html = "";
 $i = 1;
-$projArr = array();
+#$projArr = array();
 	foreach($projectDetails as $project)
 	{
-		//$html .= "<p>".$project->id."</p>";
+		
 		$html .= "<div class='details'>";
 		$html .= "<p>".$i.")"." ".$project->project."</p>";
 		$i+=1;
@@ -94,7 +97,7 @@ $projArr = array();
 		$html .= "<p class='hide color'>".$project->deadline."</p>";
 		$html .= "<p class='hide'>".$project->contact."</p>";
 		$html .= "</div>";
-		array_push($projArr,$project);
+		#array_push($projArr,$project);
 	}
 	echo $html;
 ?>

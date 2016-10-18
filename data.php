@@ -37,6 +37,8 @@
 	
 	
 	
+	
+	
 	//$carData = getAllCars();
 	
 	$projectDetails = getAllProjectDetails();
@@ -54,7 +56,17 @@ $(document).ready(function(){
     $("#show").click(function(){
         $(".hide").show();
     });
+	$(".deleteProject").click(function(e){
+        var c = confirm("oled ikka kindel?");
+		
+		if(!c){
+			e.preventDefault();
+			return;
+		} 
+    });
 });
+
+
 
 </script>
 <?=$msg;?>
@@ -91,7 +103,7 @@ $i = 1;
 	{
 		
 		$html .= "<div class='details'>";
-		$html .= "<p>".$i.")"." ".$project->project."</p>";
+		$html .= "<p>".$i.")"." ".$project->project." <a class='deleteProject' href='?remove=".$project->id."'>Remove</a></p>";
 		$i+=1;
 		$html .= "<p class='hide'>".$project->customer."</p>";
 		$html .= "<p class='hide color'>".$project->deadline."</p>";

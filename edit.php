@@ -3,6 +3,8 @@
 // me peame uhendama lehed, et session tootaks
 
 	require("functions.php");
+
+	
 	// kui ei ole kasutajat id'd
 	if(!isset($_SESSION["userID"]))
 	{
@@ -88,12 +90,25 @@ $(document).ready(function(){
 		{
 			
 			<?php
-			if(isset($_GET["edit"]))
-			{       
+			    
 				    
 					//deleteProject();
+					//header("Location: http://neti.ee");
+					foreach($projectDetails as $project)
+					{
+						if($_GET["edit"] == $project->id)
+						{
+							$projName = $project->project;
+							$projCustomer = $project->customer;
+							$projDeadline = $project->deadline;
+							$projContact = $project->contact;
+							
+							break;
+						}
+						//<img class='remove' src='https://cdn3.iconfinder.com/data/icons/softwaredemo/PNG/128x128/DeleteRed.png' width='50' height='50' title='Remove'>
+						
+						
 					
-					header("Location: edit.php?edit=".$_GET["edit"]);
 					
 				
 			}
@@ -110,9 +125,26 @@ $(document).ready(function(){
 </script>
 <?=$msg;?>
 <p>Welcome! <?=$_SESSION["userEmail"];?>!</p>
-<a href="?logout=1">Logi välja</a>
+<a href="?logout=1">Logi valja</a>
+<?php
+foreach($projectDetails as $project)
+					{
+						if($_GET['edit'] == $project->id)
+						{
+							$projName = $project->project;
+							$projCustomer = $project->customer;
+							$projDeadline = $project->deadline;
+							$projContact = $project->contact;
+							
+							break;
+						}
+						//<img class='remove' src='https://cdn3.iconfinder.com/data/icons/softwaredemo/PNG/128x128/DeleteRed.png' width='50' height='50' title='Remove'>
+						
+						
+					}
+					?>	
 
-<form method="POST" id="save">
+<form method="POST" id="update">
 	<h1>Details</h1>
 	<label for="project">Project: </label>
 	<input name="project" type="text" value="<?php if(isset($projName)){ echo $projName;}?>"><br><br>
@@ -126,10 +158,8 @@ $(document).ready(function(){
 	<label for="contact">Contact: </label>
 	<input name="contact" type="text" value="<?php if(isset($projContact)){ echo $projContact;}?>"><br><br>
 	
-	<input type="submit" value="Save" class="button">
+	<input type="submit" value="Update" class="button orange" style='background-color:orange;'>
 </form>
-
-
 
 
 
@@ -160,5 +190,3 @@ $i = 1;
 	}
 	echo $html;
 ?>
-
-

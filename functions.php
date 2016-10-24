@@ -240,7 +240,34 @@ require("../../config.php");
 		return $result;
 	}
 	
-	
+	function deleteProject()
+	{
+			$database = "if16_stanislav";
+				$mysqli = new mysqli($GLOBALS["serverHost"],$GLOBALS["serverUsername"],$GLOBALS["serverPassword"], $database);
+				$mysqli->set_charset("utf8");
+				// sqli rida
+				$dealID = $_GET['remove'];
+				$stmt = $mysqli->prepare("UPDATE  project_details SET deleted=NOW() WHERE id = '$dealID'");
+				
+				
+				echo $mysqli->error; // !!! Kui läheb midagi valesti, siis see käsk printib viga
+				
+				
+				//täida käsku
+				if($stmt->execute())
+				{
+					echo "salvsestamine õnnestus";
+				}
+				else
+				{
+					echo "ERROR ".$stmt->error;
+				}
+				
+				//panen ühenduse kinni
+				$stmt->close();
+				$mysqli->close();
+		
+	}
 	
 	function getAllProjectDetails()
 	{
@@ -250,7 +277,7 @@ require("../../config.php");
 		$mysqli->set_charset("utf8");
 		
 		// sqli rida
-		$stmt = $mysqli->prepare("SELECT id,project,customer,deadline,contact FROM project_details ORDER BY deadline ASC");
+		$stmt = $mysqli->prepare("SELECT id,project,customer,deadline,contact FROM project_details WHERE deleted IS NULL ORDER BY deadline ASC");
 		
 		//maaran vaartused muutujatesse
 		

@@ -25,6 +25,10 @@ h1{
     padding: 5px;
 	border:1px solid #3ac162;
 }
+.orange
+{
+	border:1px solid orange;
+}
 #pic{
     -webkit-transform-origin: 50% 0;
     transform-origin: 50% 0;
@@ -47,6 +51,12 @@ color:red;
 }
 .hide{
 	display:none;
+}
+.remove, .edit
+{
+	width:20px;
+	 height:20px;
+	 cursor:pointer;	
 }
 .details{
 	display:inline-block;

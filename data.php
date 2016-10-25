@@ -35,12 +35,6 @@
 		saveProject(cleanInput($_POST["project"]),cleanInput($_POST["customer"]),cleanInput($_POST["deadline"]),cleanInput($_POST["contact"]));
 	}
 	
-	
-	
-	
-	
-	//$carData = getAllCars();
-	
 	$projectDetails = getAllProjectDetails();
 	
 ?>
@@ -90,9 +84,7 @@ $(document).ready(function(){
 			<?php
 			if(isset($_GET["edit"]))
 			{       
-				    
-					//deleteProject();
-					
+				  
 					header("Location: edit.php?edit=".$_GET["edit"]);
 					
 				
@@ -104,8 +96,6 @@ $(document).ready(function(){
 	
     });
 });
-
-
 
 </script>
 <?=$msg;?>
@@ -129,11 +119,6 @@ $(document).ready(function(){
 	<input type="submit" value="Save" class="button">
 </form>
 
-
-
-
-
-
 <h1 id="hide" style="cursor:pointer;">Hide</h1>
 <h1 id="show" style="cursor:pointer;">Show</h1>
 
@@ -142,10 +127,8 @@ $(document).ready(function(){
 <?php
 $html = "";
 $i = 1;
-#$projArr = array();
 	foreach($projectDetails as $project)
 	{
-		//<img class='remove' src='https://cdn3.iconfinder.com/data/icons/softwaredemo/PNG/128x128/DeleteRed.png' width='50' height='50' title='Remove'>
 		$html .= "<div class='details'>";
 		$html .= "<p>".$i.")"." ".$project->project." <a class='editProject' href='?edit=".$project->id."'><img class='edit' src='http://www.freeiconspng.com/uploads/edit-new-icon-22.png' title='Edit'></a>
 		<a class='deleteProject' href='?remove=".$project->id."'><img class='remove' src='https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSpTYr1csaO4Vk9UzvelQor5uTsw1je50AuIRkSYGPehacYbUX1ug' title='Remove'></a>

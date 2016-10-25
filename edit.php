@@ -34,7 +34,7 @@
 		&& !empty($_POST["project"]) && !empty($_POST["customer"]) && !empty($_POST["deadline"]) && !empty($_POST["contact"]))
 	{
 		//saveCar(cleanInput($_POST["carPlate"]),cleanInput($_POST["carColor"]));
-		saveProject(cleanInput($_POST["project"]),cleanInput($_POST["customer"]),cleanInput($_POST["deadline"]),cleanInput($_POST["contact"]));
+		updateProject(cleanInput($_POST["project"]),cleanInput($_POST["customer"]),cleanInput($_POST["deadline"]),cleanInput($_POST["contact"]));
 	}
 	
 	
@@ -49,6 +49,9 @@
 <link rel="stylesheet" type="text/css" href="style.css">
 <!-- lisasin 'Nunito' fonti -->
  <link href='http://fonts.googleapis.com/css?family=Nunito:400,300' rel='stylesheet' type='text/css'>
+ 
+ <!-- JS  -->
+ 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script>
 $(document).ready(function(){
@@ -89,11 +92,7 @@ $(document).ready(function(){
 		else
 		{
 			
-			<?php
-			    
-				    
-					//deleteProject();
-					//header("Location: http://neti.ee");
+			<?php			    
 					foreach($projectDetails as $project)
 					{
 						if($_GET["edit"] == $project->id)
@@ -104,23 +103,14 @@ $(document).ready(function(){
 							$projContact = $project->contact;
 							
 							break;
-						}
-						//<img class='remove' src='https://cdn3.iconfinder.com/data/icons/softwaredemo/PNG/128x128/DeleteRed.png' width='50' height='50' title='Remove'>
-						
-						
-					
-					
-				
+						}															
 			}
 			
-			?>
-				
+			?>			
 		}
 	
     });
 });
-
-
 
 </script>
 <?=$msg;?>
@@ -137,10 +127,7 @@ foreach($projectDetails as $project)
 							$projContact = $project->contact;
 							
 							break;
-						}
-						//<img class='remove' src='https://cdn3.iconfinder.com/data/icons/softwaredemo/PNG/128x128/DeleteRed.png' width='50' height='50' title='Remove'>
-						
-						
+						}				
 					}
 					?>	
 
@@ -172,10 +159,10 @@ foreach($projectDetails as $project)
 <?php
 $html = "";
 $i = 1;
-#$projArr = array();
+
 	foreach($projectDetails as $project)
 	{
-		//<img class='remove' src='https://cdn3.iconfinder.com/data/icons/softwaredemo/PNG/128x128/DeleteRed.png' width='50' height='50' title='Remove'>
+
 		$html .= "<div class='details'>";
 		$html .= "<p>".$i.")"." ".$project->project." <a class='editProject' href='?edit=".$project->id."'><img class='edit' src='http://www.freeiconspng.com/uploads/edit-new-icon-22.png' title='Edit'></a>
 		<a class='deleteProject' href='?remove=".$project->id."'><img class='remove' src='https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSpTYr1csaO4Vk9UzvelQor5uTsw1je50AuIRkSYGPehacYbUX1ug' title='Remove'></a>

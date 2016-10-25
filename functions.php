@@ -1,34 +1,6 @@
 <?php
 require("../../config.php");
-  // functions.php
-  /*
-	function sum($x,$y)
-	{
-		
-		return $x+$y;
-		
-	}
-	echo sum(44342424,324242);
-	echo "<br>";
-	echo sum(1,1);
-	echo "<br>";
-	
-	
-	function hello($name,$surname)
-	{
-		return "Tere tulemast ".$name." ".$surname;
-	}
-	
-	echo hello("Stas","Majevski");
-	*/
-	
-	
-	/******************************************/
-	//                 SIGN UP              
-	/******************************************/
-	
-	//var_dump($GLOBALS); // php muutuaja , sees on koik muutujad
-	
+  
 	//!!!!!!!!!!
 	// see file peab olema koigil lehtedel kus tahan kasutada SESSION muutujat
 	session_start();
@@ -99,10 +71,6 @@ require("../../config.php");
 		$stmt->close();
 		$mysqli->close();
 	}
-	
-	
-	
-	
 	
 	
 	function saveProject($project,$customer,$deadline,$contact)
@@ -268,6 +236,34 @@ require("../../config.php");
 				$mysqli->close();
 		
 	}
+	function updateProject($project,$customer,$deadline,$contact)
+	{
+		
+		$database = "if16_stanislav";
+		$mysqli = new mysqli($GLOBALS["serverHost"],$GLOBALS["serverUsername"],$GLOBALS["serverPassword"], $database);
+		$mysqli->set_charset("utf8");
+		// sqli rida
+		$dealID = $_GET['edit'];
+		
+		$stmt = $mysqli->prepare("UPDATE  project_details SET project='$project', customer='$customer', deadline='$deadline',contact='$contact' WHERE id = '$dealID'");
+		
+		echo $mysqli->error; // !!! Kui läheb midagi valesti, siis see käsk printib viga
+				
+				
+				//täida käsku
+				if($stmt->execute())
+				{
+					echo "salvsestamine õnnestus";
+				}
+				else
+				{
+					echo "ERROR ".$stmt->error;
+				}
+				
+				//panen ühenduse kinni
+				$stmt->close();
+				$mysqli->close();
+	}
 	
 	function getAllProjectDetails()
 	{
@@ -313,14 +309,7 @@ require("../../config.php");
 		
 		return $result;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
+			
 	function cleanInput($input)
 	{
 		$input = trim($input);

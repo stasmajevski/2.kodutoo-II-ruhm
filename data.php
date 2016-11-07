@@ -3,6 +3,8 @@
 // me peame uhendama lehed, et session tootaks
 
 	require("functions.php");
+	require("project_class.php");
+	$Project = new Project($mysqli);
 	// kui ei ole kasutajat id'd
 	if(!isset($_SESSION["userID"]))
 	{
@@ -31,11 +33,11 @@
 	if(isset($_POST["project"]) && isset($_POST["customer"]) && isset($_POST["deadline"]) && isset($_POST["contact"])
 		&& !empty($_POST["project"]) && !empty($_POST["customer"]) && !empty($_POST["deadline"]) && !empty($_POST["contact"]))
 	{
-		//saveCar(cleanInput($_POST["carPlate"]),cleanInput($_POST["carColor"]));
-		saveProject(cleanInput($_POST["project"]),cleanInput($_POST["customer"]),cleanInput($_POST["deadline"]),cleanInput($_POST["contact"]));
+		//saveCar($Helper->cleanInput($_POST["carPlate"]),$Helper->cleanInput($_POST["carColor"]));
+		$Project->saveProject($Helper->cleanInput($_POST["project"]),$Helper->cleanInput($_POST["customer"]),$Helper->cleanInput($_POST["deadline"]),$Helper->cleanInput($_POST["contact"]));
 	}
 	
-	$projectDetails = getAllProjectDetails();
+	$projectDetails = $Project->getAllProjectDetails();
 	
 ?>
 <link rel="stylesheet" type="text/css" href="style.css">
@@ -63,7 +65,7 @@ $(document).ready(function(){
 			<?php
 			if(isset($_GET["remove"]))
 			{
-					deleteProject();
+					$Project->deleteProject();
 					header("Location: data.php");
 			}
 			
@@ -130,7 +132,7 @@ $i = 1;
 	foreach($projectDetails as $project)
 	{
 		$html .= "<div class='details'>";
-		$html .= "<p>".$i.")"." ".$project->project." <a class='editProject' href='?edit=".$project->id."'><img class='edit' src='http://www.freeiconspng.com/uploads/edit-new-icon-22.png' title='Edit'></a>
+		$html .= "<p>".$i.")"." ".$project->project." <a class='editProject' href='?edit=".$project->id."'><img class='edit' src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzslptp8ATc_JsU0R6B6tT9WiX_BAmPiqh11XAKDCYJ_ueaVDZaw' title='Edit'></a>
 		<a class='deleteProject' href='?remove=".$project->id."'><img class='remove' src='https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSpTYr1csaO4Vk9UzvelQor5uTsw1je50AuIRkSYGPehacYbUX1ug' title='Remove'></a>
 		 ";
 	

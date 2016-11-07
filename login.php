@@ -1,12 +1,16 @@
-<?php
+	<?php
 
 require("functions.php");
+require("user_class.php");
+
+$User = new User($mysqli);
 
 // KUI ON juba sisse loginud siis suunan data.php lehele
 if(isset($_SESSION["userID"]))
 	{
 		//suunan sisselogimise lehele
 		header("Location: data.php");
+		exit();
 	}
 
 //$random =" ";
@@ -145,14 +149,14 @@ if( isset( $_POST["signupGender"] ) ){
 		
 		// KASUTAN FUNTKTSIOONI
 		
-		signUP(cleanInput($signupEmail),cleanInput($password),cleanInput($birthday),cleanInput($signupGender));
+		$User->signUP($Helper->cleanInput($signupEmail),$Helper->cleanInput($password),$Helper->cleanInput($birthday),$Helper->cleanInput($signupGender));
 		
 	}
 	
 	$error ="";
 	if(isset($_POST["loginEmail"]) && isset($_POST["loginPassword"]) && !empty($_POST["loginEmail"]) && !empty($_POST["loginPassword"]))
 	{
-		$error = login(cleanInput($_POST["loginEmail"]),cleanInput($_POST["loginPassword"]));
+		$error = $User->login($Helper->cleanInput($_POST["loginEmail"]),$Helper->cleanInput($_POST["loginPassword"]));
 	}
 	
 	
